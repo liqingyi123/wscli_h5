@@ -4,8 +4,9 @@ import router from './router'
 import store from './store'
 Vue.config.productionTip = false
 //引入缓存便捷管理工具并设为属性
-import { storage } from './utils/utils.js'
+import { storage,browserInfo } from './utils/utils.js'
 Vue.prototype.$storage = storage
+Vue.prototype.$browserInfo = browserInfo()
 import setting from '../setting.js'
 //引入过滤器集群
 import filters from './utils/tofix.js'
@@ -39,6 +40,7 @@ Vue.use(Toast).use(Dialog).use(Loading).use(PullRefresh).use(Lazyload).use(Overl
 // Vue.prototype.wx = wx
 //判断是否开启了控制台
 if(setting.deBug) require('./utils/eruda.min.js').init();
+Vue.prototype.$ossUrl = 'https://oss.bangtk.com';
 new Vue({
   router,
   store,

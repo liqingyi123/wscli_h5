@@ -104,6 +104,43 @@ var filters = {
     //拼接字符串
     spliceString: function(str1,str2,sort){
         return sort ? (str2 + str1) : (str1 + str2);
+    },
+	//数字转为汉字数字
+    numberToChar: function(number){
+        let _arrayCHNNum = ['〇','一','二','三','四','五','六','七','八','九'];
+        let _arrayCHNBit = ['','十','百','千','万','亿','兆'];
+        let _numArray = number.toString().split('');
+        if(_numArray.length === 2 && _numArray[0] === '1'){
+            _numArray[0] = 'y';
+        }
+        for(let i = _numArray.length - 1; i >= 0; i--){
+            if(_numArray[i] === '0') {
+                _numArray[i] = 'x';
+            }  else{
+                break;
+            }
+        }
+        let _s = '';
+        let _bLast0 = false;
+        for(let i = 0;i < _numArray.length;i++){
+            if(_numArray[i] === 'x'){
+                continue;
+            }
+            if(_numArray[i] === '0' && _bLast0){
+                _bLast0 = true;
+                continue;
+            }
+            if(_numArray[i] !== 'y'){//delete 1 in ten
+                _s += _arrayCHNNum[parseInt(_numArray[i])];
+            }
+            if(_numArray[i] === '0'){
+                _bLast0 = true;
+                continue;
+            }
+            _bLast0 = false;
+            _s += _arrayCHNBit[_numArray.length-i-1];
+        }
+        return _s;
     }
 }
 module.exports = filters;
