@@ -1,5 +1,5 @@
 <template>
-	<!-- <div id="nav">
+    <!-- <div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
     </div>
@@ -11,6 +11,7 @@
 </template>
 
 <style lang="scss">
+<<<<<<< HEAD
 	html,body{
         -webkit-text-size-adjust:none;
         //-webkit-text-size-adjust:auto !important;
@@ -36,6 +37,22 @@
     }
     img {
         display: block;margin: 0;font-size: 0;vertical-align: top;height: auto;width: 100%;
+=======
+    html{
+        -webkit-text-size-adjust: none;font-size: 50px;
+    }
+    #app {
+        font-family: Avenir, Helvetica, Arial, sans-serif;-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;margin: 0;padding: 0;
+    }
+    body{
+        background-color: #F8F8F8;font-size: 0.32rem;
+    }
+    *{
+        padding: 0;margin: 0;-webkit-text-size-adjust:auto !important;box-sizing: border-box;transition: all .4s;
+    }
+    img {
+        display: block;margin: 0;font-size: 0;vertical-align: top;width: 100%;height: auto;
+>>>>>>> 1d5eeb2a67dc6df7c40730177ada3a1b465b41b4
     }
     input,button{
         border-style: none;user-select: none;background: transparent;
