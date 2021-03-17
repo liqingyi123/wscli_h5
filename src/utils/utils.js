@@ -133,10 +133,27 @@ export function searchArray(array,key,field){
  * */
 export let storage = {
     get: function(key,type){
-        if(type) return sessionStorage.getItem(key);
-        else return localStorage.getItem(key);
+        if(type){
+            let value = sessionStorage.getItem(key);
+            try{
+                value = JSON.parse(value)
+            }catch(e){
+                value = value
+            }
+            return value;
+        } 
+        else{
+            let value = localStorage.getItem(key);
+            try{
+                value = JSON.parse(value)
+            }catch(e){
+                value = value
+            }
+            return value;
+        }
     },
     set: function(key,value,type){
+        if(typeof value === 'object') value = JSON.stringify(value);
         if (type) sessionStorage.setItem(key,value);
         else localStorage.setItem(key,value);
     },
