@@ -129,7 +129,7 @@ export function searchArray(array,key,field){
  * 缓存操作
  * @key 必填，键
  * @value 值
- * @type 缓存类型 local | session
+ * @type 缓存类型 非值local | 真值session
  * */
 export let storage = {
     get: function(key,type){
