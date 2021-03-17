@@ -14,8 +14,8 @@ Object.keys(filters).forEach(key =>{
     Vue.filter(key,filters[key]);
 })
 //引入vue-cookies
-import cookies from "vue-cookies"
-Vue.use(cookies)
+// import cookies from "vue-cookies"
+// Vue.use(cookies)
 //引入vant组件
 import 'vant/lib/index.css'
 import { 
@@ -41,6 +41,12 @@ Vue.use(Toast).use(Dialog).use(Loading).use(PullRefresh).use(Lazyload).use(Overl
 //判断是否开启了控制台
 if(setting.deBug) require('./utils/eruda.min.js').init();
 Vue.prototype.$ossUrl = 'https://oss.bangtk.com';
+
+//增加页面切换动画
+window.addEventListener('popstate',function(e){
+    router.isBack = true;
+},false)
+
 new Vue({
   router,
   store,

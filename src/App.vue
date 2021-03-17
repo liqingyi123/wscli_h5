@@ -4,12 +4,36 @@
       <router-link to="/about">About</router-link>
     </div>
     <router-view/> -->
-    <keep-alive :include="this.$storage.get('signBack')!='hasSign'?['shopHome','collectList']:['shopHome']">
+    <!-- <keep-alive :include="this.$storage.get('signBack')!='hasSign'?['shopHome','collectList']:['shopHome']">
         <router-view></router-view>
-    </keep-alive>
-    <!-- <router-view></router-view> -->
+    </keep-alive> -->
+    <transition :name="aName">
+        <keep-alive :include="['home']">
+            <router-view></router-view>
+        </keep-alive>
+    </transition>
 </template>
-
+<script>
+    export default {
+        name: "App",
+        data(){
+            return {
+                aName: "slide-right"
+            }
+        },
+        watch: {
+            $route(to,from) {
+                // 设置切换动画
+                if(this.$router.isBack){
+                    this.aName = "slide-right";
+                }else{
+                    this.aName = "slide-left";
+                }
+                this.$router.isBack = false;
+            }
+        },
+    }
+</script>
 <style lang="scss">
     html,body{
         -webkit-text-size-adjust:none;
@@ -67,8 +91,18 @@
     }
     .html{
         position: relative;width: 100vw;
-        .body{
-            position: relative;width: 100%;min-height: 100vh;background-color: #F8F8F8;
-        }
+    }
+    .body{
+        position: relative;width: 100%;min-height: 100vh;background-color: #F8F8F8;
+    }
+    /* 路由切换动画 */
+    .slide-left-enter,.slide-right-leave-to {
+      opacity: 0;transform: translateX(100%)
+    }
+    .slide-left-leave-to, .slide-right-enter {
+      opacity: 0;transform: translateX(-100%)
+    }
+    .slide-left-enter-active, .slide-left-leave-active, .slide-right-enter-active, .slide-right-leave-active {
+      transition: .3s;position: absolute;top:0;
     }
 </style>

@@ -58,7 +58,7 @@ export function bubbleSort(array, field, sort) {
             }
           } else {
             if(IsNaN(Number(array[i]))){//如果可以转为数字类型
-                sortRes = Number(array[i]) > Number(array[i + 1]);
+                sortRes = Number(array[i]) < Number(array[i + 1]);
             }else if (!IsNaN(Date.parse(array[i]))) { //如果可以转成日期时间戳
               sortRes = Date.parse(array[i]) < Date.parse(array[i + 1]);
             }else if (typeof array[i] === 'string') {
@@ -133,36 +133,20 @@ export function searchArray(array,key,field){
  * */
 export let storage = {
     get: function(key,type){
-        // console.log('获取缓存',key,type||'session')
-        if (type == 'local') {
-            return localStorage.getItem(key)
-        } else{
-            return sessionStorage.getItem(key)
-        }
+        if(type) return sessionStorage.getItem(key);
+        else return localStorage.getItem(key);
     },
     set: function(key,value,type){
-        // console.log('设置缓存',key,value,type||'session')
-        if (type == 'local') {
-            localStorage.setItem(key,value)
-        } else{
-            sessionStorage.setItem(key,value)
-        }
+        if (type) sessionStorage.setItem(key,value);
+        else localStorage.setItem(key,value);
     },
     remove: function(key,type){
-        // console.log('删除缓存',key,type||'session')
-        if (type == 'local') {
-            localStorage.removeItem(key)
-        } else{
-            sessionStorage.removeItem(key)
-        }
+        if(type) sessionStorage.removeItem(key);
+        else localStorage.removeItem(key);
     },
     clear: function(type){
-        // console.log('清除缓存',type||'session')
-        if (type == 'local') {
-            localStorage.clear();
-        } else{
-            sessionStorage.clear();
-        }
+        if(type) sessionStorage.clear();
+        else localStorage.clear();
     }
 }
 /**

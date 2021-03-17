@@ -1,10 +1,9 @@
 module.exports = {
-    // const apiUrl = 'http://wuse.private.bangtk.com:1002' // 测试环境
-    // const apiUrl = "http://192.168.1.216:8080" //本地环境
-    // const apiUrl = "http://8b52179d7edd.ngrok.io" //本地环境
-    // const apiUrl = 'api' // 测试环境
-    // const apiUrl = 'http://test.h5.wusehaowu.com' // 测试环境
-    // const apiUrl = 'https://huidu.wusehaowu.com' // 测试环境
+    //http://wuse.private.bangtk.com:1002 // 测试环境
+    //http://192.168.1.216:8080 //本地环境
+    //http://test.h5.wusehaowu.com // 测试环境
+    //https://huidu.wusehaowu.com // 灰度环境
+    //https://wsonline.bangtk.com //线上环境
     //基础配置
     apiUrl: 'api',//接口地址(当使用代理时请使用代理名称--proxyMap=/api，则apiUrl=api)
     deBug: false,//是否开启H5端控制台 
