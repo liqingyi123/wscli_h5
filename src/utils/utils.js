@@ -272,8 +272,9 @@ export function browserInfo(){
         iPhone: u.indexOf('iPhone') > -1 , //是否为iPhone或者QQHD浏览器
         iPad: u.indexOf('iPad') > -1, //是否iPad
         webApp: u.indexOf('Safari') == -1, //是否web应该程序，没有头部与底部
-        weixin: u.indexOf('MicroMessenger') > -1, //是否微信 （2015-01-22新增）
-        qq: u.match(/\sQQ/i) == " qq" //是否QQ
+        weixin: u.indexOf('MicroMessenger') > -1 || u.indexOf('miniProgram') > -1 || u.indexOf('WeChat') > -1, //是否微信 （2015-01-22新增）
+        qq: u.match(/\sQQ/i) == " qq", //是否QQ
+        miniProgram: u.indexOf('miniProgram') > -1//是否是微信小程序
     }
     return {
         appVersion: app,//版本
