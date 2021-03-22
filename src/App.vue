@@ -1,33 +1,27 @@
 <template>
-    <!-- <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/> -->
-    <!-- <keep-alive :include="this.$storage.get('signBack')!='hasSign'?['shopHome','collectList']:['shopHome']">
-        <router-view></router-view>
-    </keep-alive> -->
     <transition :name="aName">
-        <keep-alive :include="['home']">
+        <keep-alive :include="keepPage">
             <router-view></router-view>
         </keep-alive>
     </transition>
 </template>
 <script>
+    import setting from '../setting.js';
     export default {
         name: "App",
         data(){
             return {
-                aName: "slide-right"
+                aName: setting.pageChangeEffect+"-right",
+                keepPage: ['home','robot','pay','pointSend']
             }
         },
         watch: {
             $route(to,from) {
                 // 设置切换动画
                 if(this.$router.isBack){
-                    this.aName = "slide-right";
+                    this.aName = setting.pageChangeEffect+"-right";
                 }else{
-                    this.aName = "slide-left";
+                    this.aName = setting.pageChangeEffect+"-left";
                 }
                 this.$router.isBack = false;
             }
@@ -35,28 +29,13 @@
     }
 </script>
 <style lang="scss">
-    html,body{
-        -webkit-text-size-adjust:none;
-        //-webkit-text-size-adjust:auto !important;
-    }
+    html,body{-webkit-text-size-adjust:none;}
     html{font-size: 50px;}
-    #app {
-        font-family: Avenir, Helvetica, Arial, sans-serif;-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;margin: 0;padding: 0;
-    }
-    #nav {
-        padding: .6rem;
-        a {
-            font-weight: bold;color: #2c3e50;
-            &.router-link-exact-active {
-                color: #42b983;
-            }
-        }
-    }
     body{
         background-color: #F8F8F8;font-size: .32rem;color: #303030;
     }
     *{
-        padding: 0;margin: 0;box-sizing: border-box;
+        padding: 0;margin: 0;box-sizing: border-box;-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;
     }
     img {
         display: block;margin: 0;font-size: 0;vertical-align: top;height: auto;width: 100%;
@@ -96,23 +75,37 @@
         position: relative;width: 100%;min-height: 100vh;background-color: #F8F8F8;
     }
     /* 路由切换动画 */
-    .slide-left-enter,.slide-right-leave-to {
-      opacity: 0;
-      // transform: translateX(100%)
-      // transform: translateY(100%)
-      // transform: translate(100%,100%)
-      // transform: rotateY(180deg);
-      transform: rotate3d(1,1,1,45deg);
+    .funny-left-enter,.funny-right-leave-to {
+      opacity: 0;transform: rotate3d(1,1,1,45deg);
     }
-    .slide-left-leave-to, .slide-right-enter {
-      opacity: 0;
-      // transform: translateX(-100%)
-      // transform: translateY(-100%)
-      // transform: translate(-100%,-100%)
-      // transform: rotateY(-180deg);
-      transform: rotate3d(0,0,0.5,-45deg);
+    .funny-left-leave-to, .funny-right-enter {
+      opacity: 0;transform: rotate3d(0,0,0.5,-45deg);
     }
-    .slide-left-enter-active, .slide-left-leave-active, .slide-right-enter-active, .slide-right-leave-active {
+    .flip-left-enter,.flip-right-leave-to {
+      opacity: 0;transform: rotateY(180deg);
+    }
+    .flip-left-leave-to, .flip-right-enter {
+      opacity: 0;transform: rotateY(-180deg);
+    }
+    .subPanel-left-enter,.subPanel-right-leave-to {
+      opacity: 0;transform: translate(100%,100%)
+    }
+    .subPanel-left-leave-to, .subPanel-right-enter {
+      opacity: 0;transform: translate(-100%,-100%)
+    }
+    .upDown-left-enter,.upDown-right-leave-to {
+      opacity: 0;transform: translateY(100%)
+    }
+    .upDown-left-leave-to, .upDown-right-enter {
+      opacity: 0;transform: translateY(-100%)
+    }
+    .default-left-enter,.default-right-leave-to {
+      opacity: 0;transform: translateX(100%)
+    }
+    .default-left-leave-to, .default-right-enter {
+      opacity: 0;transform: translateX(-100%)
+    }
+    .default-left-enter-active, .default-left-leave-active, .default-right-enter-active, .default-right-leave-active,.funny-left-enter-active, .funny-left-leave-active, .funny-right-enter-active, .funny-right-leave-active,.flip-left-enter-active, .flip-left-leave-active, .flip-right-enter-active, .flip-right-leave-active,.subPanel-left-enter-active, .subPanel-left-leave-active, .subPanel-right-enter-active, .subPanel-right-leave-active,.upDown-left-enter-active, .upDown-left-leave-active, .upDown-right-enter-active, .upDown-right-leave-active{
       transition: .3s;position: absolute;top:0;
     }
 </style>
