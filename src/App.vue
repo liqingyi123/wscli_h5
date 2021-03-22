@@ -97,10 +97,20 @@
     }
     /* 路由切换动画 */
     .slide-left-enter,.slide-right-leave-to {
-      opacity: 0;transform: translateX(100%)
+      opacity: 0;
+      // transform: translateX(100%)
+      // transform: translateY(100%)
+      // transform: translate(100%,100%)
+      // transform: rotateY(180deg);
+      transform: rotate3d(1,1,1,45deg);
     }
     .slide-left-leave-to, .slide-right-enter {
-      opacity: 0;transform: translateX(-100%)
+      opacity: 0;
+      // transform: translateX(-100%)
+      // transform: translateY(-100%)
+      // transform: translate(-100%,-100%)
+      // transform: rotateY(-180deg);
+      transform: rotate3d(0,0,0.5,-45deg);
     }
     .slide-left-enter-active, .slide-left-leave-active, .slide-right-enter-active, .slide-right-leave-active {
       transition: .3s;position: absolute;top:0;
