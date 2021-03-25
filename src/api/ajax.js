@@ -29,7 +29,7 @@ service.interceptors.request.use(
             token: storage.get('token'),
             device: storage.get('robotInfo') ? storage.get('robotInfo').deviceId : '',
             deviceId: storage.get('robotInfo') ? storage.get('robotInfo').deviceId : '',
-            app: process.env.NODE_ENV == 'debug' ? 5 : (browser.kernel.android?1:browser.kernel.ios?2:5)
+            app: process.env.VUE_APP_CURRENTMODE == 'debug' ? 5 : (browser.kernel.android?1:browser.kernel.ios?2:5)
             // app: browser.kernel.android?1:browser.kernel.ios?2:5
         });
         // if(config.method  === 'post'){

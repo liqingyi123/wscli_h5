@@ -5,9 +5,10 @@ module.exports = {
     // const apiUrl = 'api' // 测试环境
     // const apiUrl = 'http://test.h5.wusehaowu.com' // 测试环境
     // const apiUrl = 'https://huidu.wusehaowu.com' // 测试环境
+    //https://wsonline.bangtk.com
     //基础配置
-    apiUrl: process.env.NODE_ENV == 'online' ? 'https://wsonline.bangtk.com' : process.env.NODE_ENV == 'test' ? 'http://wuse.private.bangtk.com:1002' : 'api',,//接口地址(当使用代理时请使用代理名称--proxyMap=/api，则apiUrl=api)
-    deBug: process.env.NODE_ENV == 'online' ? false : process.env.NODE_ENV == 'test' ? true : false,//是否开启H5端控制台 
+    apiUrl: process.env.VUE_APP_CURRENTMODE == 'online' ? 'https://wsonline.bangtk.com' : process.env.VUE_APP_CURRENTMODE == 'test' ? 'http://wuse.private.bangtk.com:1002' : 'api',//接口地址(当使用代理时请使用代理名称--proxyMap=/api，则apiUrl=api)
+    deBug: process.env.VUE_APP_CURRENTMODE == 'online' ? false : process.env.VUE_APP_CURRENTMODE == 'test' ? true : false,//是否开启H5端控制台 
     //开发环境
     portNumber: 6971,//运行端口号
     proxyTarget: 'http://wuse.private.bangtk.com:1002',//需要代理的接口地址，多个代理使用数组

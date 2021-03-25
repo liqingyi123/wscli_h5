@@ -7,8 +7,8 @@ function resolve(dir) {
     return path.join(__dirname, dir)
 }
 function assetsPath(_path) {
-    const assetsSubDirectory = process.env.NODE_ENV === 'online' ? 'static' : 'static'
-    return path.posix.join(assetsSubDirectory, _path)
+    // const assetsSubDirectory = process.env.NODE_ENV === 'online' ? 'static' : 'static'
+    return path.posix.join('static', _path)
 }
 //遍历代理
 let proxy = {};
@@ -91,7 +91,7 @@ module.exports = {
     },
     // 配置打包 js、css文件为.gz格式，优化加载速度  （参考：https://blog.csdn.net/qq_31677507/article/details/102742196）
     configureWebpack: config => {
-        if (process.env.NODE_ENV === 'online') {
+        if (process.env.NODE_ENV === 'production') {
             return {
                 plugins: [
                     new CompressionPlugin({

@@ -26,7 +26,7 @@ export default function requestHelper(url, method, data, openJsonParams) {
                 break;
             case "post":
                 let browser = browserInfo();
-                // let option = `token=${storage.get('token')}&app=${process.env.NODE_ENV == 'debug'?5:(browser.kernel.android?1:browser.kernel.ios?2:5)}&device=${storage.get('robotInfo')?storage.get('robotInfo').deviceId:''}&deviceId=${storage.get('robotInfo')?storage.get('robotInfo').deviceId:''}`;
+                // let option = `token=${storage.get('token')}&app=${process.env.VUE_APP_CURRENTMODE == 'debug'?5:(browser.kernel.android?1:browser.kernel.ios?2:5)}&device=${storage.get('robotInfo')?storage.get('robotInfo').deviceId:''}&deviceId=${storage.get('robotInfo')?storage.get('robotInfo').deviceId:''}`;
                 params = {
                     // url: `${url.indexOf('?')>-1?url+'&'+option:url+'?'+option}`,
                     url: url,
