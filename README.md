@@ -29,10 +29,15 @@ axios qs vant vue-cookies weixin-js-sdk -S
 
 ### 热更新的开发模式
 ```
-npm run wuse
+npm run debug
 ```
 
-### 编译压缩成生产环境资源包
+### 编译压缩成生产测试环境资源包
+```
+npm run test
+```
+
+### 编译压缩成生产线上环境资源包
 ```
 npm run online
 ```
