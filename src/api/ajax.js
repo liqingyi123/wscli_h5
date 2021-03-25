@@ -1,9 +1,9 @@
 import axios from 'axios'
-import { Notify } from 'vant'
-import vueCookies from "vue-cookies"
+import qs from "qs";
+import { Notify,Toast } from 'vant'
 import router from '@/router/index'
-import signature from '@u/sign'
-import { unicodeToCh,browserInfo,storage } from '@u/utils'
+import signature from '@/utils/sign'
+import { unicodeToCh,browserInfo,storage } from '@/utils/utils'
 
 // const apiUrl = 'http://wuse.private.bangtk.com:1002' // 测试环境
 // const apiUrl = 'https://wsonline.bangtk.com' //正式环境
@@ -12,33 +12,34 @@ import { unicodeToCh,browserInfo,storage } from '@u/utils'
 
 const service = axios.create({
     // baseURL: apiUrl, // api的base_url
-    timeout: 60000, // 请求超时时间
+    timeout: 600000, // 请求超时时间
     headers: {
         "Content-Type": "application/x-www-form-urlencoded",
         Accept: "application/json",
+        token: storage.get('token')
     }
 });
-
+let browser = browserInfo();
+let sign = signature.signature();
 // request拦截器
 service.interceptors.request.use(
-  config => {
-    // token放进请求头和请求体中，后端取哪随便
-    let sign = signature.signature();
-    let browser = browserInfo();
-    // console.log(1111,browser)
-    // if (token) config.headers.token = token;
-    let data = config.params || config.data;
-    Object.assign(data, sign,{
-        // token: vueCookies.get('token'),
-        // uid: vueCookies.get('uid'),
-        // device: vueCookies.get('device'),
-        app: browser.kernel.android?1:browser.kernel.ios?2:5
-    });
-    return config;
-  },
-  error => {
-    Promise.reject(error);
-  }
+    config => {
+        let data = config.params || config.data;
+        Object.assign(data,sign,{
+            token: storage.get('token'),
+            device: storage.get('robotInfo') ? storage.get('robotInfo').deviceId : '',
+            deviceId: storage.get('robotInfo') ? storage.get('robotInfo').deviceId : '',
+            app: process.env.NODE_ENV == 'debug' ? 5 : (browser.kernel.android?1:browser.kernel.ios?2:5)
+            // app: browser.kernel.android?1:browser.kernel.ios?2:5
+        });
+        // if(config.method  === 'post'){
+        //     config.data = qs.stringify(data)
+        // }
+        return config;
+    },
+    error => {
+        Promise.reject(error);
+    }
 );
 
 // respone拦截器
@@ -51,60 +52,93 @@ service.interceptors.response.use(
                 message: res.message ? unicodeToCh(res.message) : res.msg ? unicodeToCh(res.msg) : 'Warn',
                 duration: 3000
             });
-            return Promise.reject(false);
+            return Promise.reject(res);
         }else if(res.code == 551099){
             Notify({
                 type: 'warning', 
                 message: res.message || res.msg || '系统繁忙，请重试。',
                 duration: 3000
             });
-            return Promise.reject(false);
-        }else if(res.code == 6006 || res.code == 6007 || res.code == 6001){
+            return Promise.reject(res);
+        }else if(res.code == 6006 || res.code == 6007){
             Notify({
                 type: 'warning', 
                 message: res.message || res.msg || 'Warn',
                 duration: 3000
             });
-            return Promise.reject(false);
+            return Promise.reject(res);
         }else if(res.code == 20001){
             Notify({
                 type: 'warning', 
                 message: res.message || res.msg || 'Warn',
                 duration: 3000
             });
-            return Promise.reject(false);
-        }else{
+            return Promise.reject(res);
+        }else if(res.code == 500){
+            Notify({
+                type: 'warning', 
+                message: res.message || res.msg || '服务器内部错误',
+                duration: 3000
+            });
+            return Promise.reject(res);
+        }else {
+            let msg = res.msg || res.message;
+            if(msg != 'SUCCESS'){
+                Notify({
+                    type: 'warning', 
+                    message: res.message || res.msg,
+                    duration: 3000
+                });
+            }
+            // Notify({
+            //     type: 'danger', 
+            //     message: res.message ? unicodeToCh(res.message) : res.msg ? unicodeToCh(res.msg) : 'danger',
+            //     duration: 3000
+            // });
+            // return Promise.resolve(false);
             return res;
         }
     },
     error => {
-        console.log('请求失败',error)
-        if(error.status == 401){
+        if(error.message.indexOf(401) > -1){
             Notify({
                 type: 'danger', 
                 message: 'token过期，请重新进入页面',
                 duration: 3000
             });
-        }else if(error.status == 404){
+            return Promise.reject(error);
+        }else if(error.message.indexOf(404) > -1) {
             Notify({
                 type: 'danger', 
                 message: '请求的资源不存在',
                 duration: 3000
             });
-        }else if(error.status == 502){
+            return Promise.reject(error);
+        }
+        else if(error.message.indexOf(500) > -1){
             Notify({
                 type: 'danger', 
-                message: '502 Bad Gateway',
+                message: error.message || '服务器内部错误',
                 duration: 3000
             });
-        }else{
+            return Promise.reject(false);
+        }
+        else if(error.message.indexOf(502) > -1){
+            Notify({
+                type: 'danger', 
+                message: '502 网关错误',
+                duration: 3000
+            });
+            return Promise.reject(false);
+        }
+        else{
             Notify({ 
                 type: 'danger', 
-                message: error.message || error.msg || 'Error',
+                message: error.message || '请求发生错误',
                 duration: 3000
             });
+            return Promise.reject(error);
         }
-        return Promise.reject(false);
     }
 );
 

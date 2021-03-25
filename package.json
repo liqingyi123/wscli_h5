@@ -3,8 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "wuse": "vue-cli-service serve",
-    "online": "vue-cli-service build"
+    "debug": "vue-cli-service serve --mode debug",
+    "online": "vue-cli-service build --mode online",
+    "test": "vue-cli-service build --mode test"
   },
   "dependencies": {
     "axios": "^0.21.1",
