@@ -40,7 +40,7 @@ Vue.use(Toast).use(Dialog).use(Loading).use(PullRefresh).use(Lazyload).use(Overl
 // Vue.prototype.wx = wx
 //判断是否开启了控制台
 if(setting.deBug) require('./utils/eruda.min.js').init();
-Vue.prototype.$ossUrl = 'https://oss.bangtk.com';
+Vue.prototype.$ossUrl = 'http://wuse-public.oss-cn-beijing.aliyuncs.com';
 
 //增加页面切换动画
 window.addEventListener('popstate',function(e){

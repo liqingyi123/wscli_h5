@@ -330,3 +330,45 @@ export function getUrlParme() {
     }
     return theRequest;
 }
+//无需打开图片页面就能下载图片
+//需要服务端配合修改Access-Control-Allow-Origin: *
+export function downPic(imgsrc,name,callBack){
+    //下载图片地址和图片名
+    let image = new Image();
+    image.src = imgsrc;
+    // 解决跨域 Canvas 污染问题
+    image.setAttribute('crossOrigin', 'anonymous');
+    image.onload = function () {
+        let canvas = document.createElement('canvas');
+        canvas.width = image.width;
+        canvas.height = image.height;
+        let context = canvas.getContext('2d');
+        context.drawImage(image, 0, 0, image.width, image.height);
+        let ext = image.src.substring(image.src.lastIndexOf('.')+1).toLowerCase();
+        let _dataURL = canvas.toDataURL('image/'+ext); //得到图片的base64编码数据
+        let blob_ = dataURLtoBlob(_dataURL); // 用到Blob是因为图片文件过大时，在一部分浏览器上会下载失败，而Blob就不会
+        let url = {
+            name: name || "下载图片by李青逸.png", // 图片名称不需要加.png后缀名
+            src: blob_
+        };
+        if (window.navigator.msSaveOrOpenBlob) {// if IE
+            navigator.msSaveBlob(url.src, url.name);//filename文件名包括扩展名，下载路径为浏览器默认路径
+        } else {
+            let link = document.createElement("a");
+            link.setAttribute("href", window.URL.createObjectURL(url.src));
+            link.setAttribute("download", url.name + '.png');
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+        }
+        callBack && callBack();
+    };
+    function dataURLtoBlob(dataurl) {
+        let arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+            bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+        while (n--) {
+            u8arr[n] = bstr.charCodeAt(n);
+        }
+        return new Blob([u8arr], {type: mime});
+    }
+}
