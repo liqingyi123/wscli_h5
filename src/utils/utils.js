@@ -200,7 +200,7 @@ export function unicodeToCh(str){
 			if(str.charAt(i+1) == 'u'){
 				// 提取从i+2开始(包括)的 四个字符
 				var unicode = str.substr((i+2),4); 
-                                // 以16进制为基数解析unicode字符串，得到一个10进制的数字
+                // 以16进制为基数解析unicode字符串，得到一个10进制的数字
 				result += String.fromCharCode(parseInt(unicode,16).toString(10));
 				// 提取这个unicode经过了5个字符， 去掉这5次循环
 				len = 6;
@@ -371,4 +371,56 @@ export function downPic(imgsrc,name,callBack){
         }
         return new Blob([u8arr], {type: mime});
     }
+}
+/**
+ * 复制多个图片和文字到剪贴板
+ * 李青逸 2021/4/7
+ *  copyInfo({
+        txts: '请复制我',
+        imgs: ['https://img.shop.wusehaowu.com/20210407/da46894987254688af008a95ad121da9.png','https://t00img.yangkeduo.com/goods/images/2021-02-27/1e5bc93f957fefabc13d994a9f379dda.jpeg']
+    })
+  * */
+export function copyInfo(sets){
+    let imgDiv = document.createElement('div')
+    imgDiv.id = '__imgDiv';
+    imgDiv.setAttribute('style','z-index: -1;position: fixed;')
+    let child = '';
+    if(sets.txts){
+        if(typeof sets.txts === 'string'){
+            child += `<span>${sets.txts}</span>`
+        }else{
+            sets.txts.forEach(item=>{
+                child += `<span>${item}</span>`
+            });
+        }
+    }
+    if(sets.imgs){
+        if(typeof sets.imgs === 'string'){
+            sets.imgs = sets.imgs.indexOf('https')>-1?sets.imgs.replace('https','http'):sets.imgs;
+            child += `<img src="${sets.imgs}" />`
+        }else{
+            sets.imgs.forEach(item=>{
+                item = item.indexOf('https')>-1?item.replace('https','http'):item;
+                child += `<img src="${item}" />`
+            });
+        }
+    }
+    imgDiv.innerHTML = child;
+    document.body.insertBefore(imgDiv,document.body.lastChild)
+    let dom = document.getElementById('__imgDiv')
+    console.log(dom)
+    if (window.getSelection) {//chrome等主流浏览器
+        let selection = window.getSelection();
+        let range = document.createRange();
+        range.selectNodeContents(dom);
+        selection.removeAllRanges();
+        selection.addRange(range);
+    } else if (document.body.createTextRange) {//ie
+        let range = document.body.createTextRange();
+        range.moveToElementText(dom);
+        range.select();
+    }
+    document.execCommand('copy');
+    window.getSelection().removeAllRanges();
+    imgDiv.parentNode.removeChild(imgDiv);
 }
