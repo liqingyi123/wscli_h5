@@ -16,7 +16,7 @@ module.exports = {
     //生产环境
     favicon: 'favicon.ico',//应用图标
     favName: '物色H5',
-    pageChangeEffect: 'funny',//default-默认 upDown-上下 subPanel-对角 flip-翻转 funny-搞怪
+    pageChangeEffect: 'drawer',//default-默认 upDown-上下 subPanel-对角 flip-翻转 funny-搞怪 drawer-抽屉
     //更多配置
     buildAssetsDir: 'static',//打包后静态资源目录(js,css,img,fonts)这些文件都可以写里面
     buildOutputDir: 'wsH5',//打包进的目录名

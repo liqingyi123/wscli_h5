@@ -12,12 +12,9 @@ export function MergeArray(arr1, arr2, field) {
         	let flag = true;  //建立标记，判断数据是否重复，true为不重复
         	for(let item2 of res){  //循环新数组的内容
                 // console.log(item[field],item2[field])
-                //让json数组对象的内容与新数组的内容作比较，相同的话，改变标记为false
-                if(field){
-                    if(item[field] == item2[field]) flag = false;
-                }else{
-                    if(item == item2) flag = false;
-                }
+        		if(item[field] == item2[field]){ //让json数组对象的内容与新数组的内容作比较，相同的话，改变标记为false
+        			flag = false;
+        		}
         	}
         	if(flag){ //判断是否重复
         		res.push(item); //不重复的放入新数组。  新数组的内容会继续进行上边的循环。
@@ -39,6 +36,7 @@ export function bubbleSort(array, field, sort) {
   //每轮都记录最后一次发生交换的位置。假设本轮的最后一次交换发生在队伍m的位置中，就说明队从(m,n]的位置已经的同学已经归位了，下一轮只要冒泡比较剩下的位置从[1,m]的同学就好了，当最后的冒泡比较不发生交换时也就说明整个队伍所有人都归位了
   let n = array.length - 1,
     temp;
+    console.log(sort)
   while (n != 0) {
     let Off = true, //该值用来判断不发生交换时把n置为0;
       len = n; //保存n的值,避免与n冲突。
@@ -47,46 +45,38 @@ export function bubbleSort(array, field, sort) {
       let sortRes
       if(!sort || sort == 0){
           if (field) {
-            if(IsNaN(Number(array[i][field]))){//如果可以转为数字类型
-                sortRes = Number(array[i][field]) < Number(array[i + 1][field]);
-            }else if (IsNaN(Date.parse(array[i][field]))) { //如果可以转成日期时间戳
-              sortRes = Date.parse(array[i][field]) < Date.parse(array[i + 1][field]);
-            }else if (typeof array[i][field] === 'string') { //汉字的比较
-              sortRes = array[i][field].localeCompare(array[i + 1][field]) < 0;
-            } else { //数字的比较
-              sortRes = array[i][field] < array[i + 1][field];
-            }
-          } else {
-            if(IsNaN(Number(array[i]))){//如果可以转为数字类型
-                sortRes = Number(array[i]) < Number(array[i + 1]);
-            }else if (!IsNaN(Date.parse(array[i]))) { //如果可以转成日期时间戳
-              sortRes = Date.parse(array[i]) < Date.parse(array[i + 1]);
-            }else if (typeof array[i] === 'string') {
-              sortRes = array[i].localeCompare(array[i + 1]) < 0;
-            } else {
-              sortRes = array[i] < array[i + 1];
-            }
-          }
-      }else{
-          if (field) {
-            if(IsNaN(Number(array[i][field]))){//如果可以转为数字类型
-                sortRes = Number(array[i][field]) > Number(array[i + 1][field]);
-            }else if(IsNaN(Date.parse(array[i][field]))) { //如果可以转成日期时间戳
+            if (IsNaN(Date.parse(array[i][field]))) { //如果可以转成日期时间戳
               sortRes = Date.parse(array[i][field]) > Date.parse(array[i + 1][field]);
-            }else if(typeof array[i][field] === 'string') { //汉字的比较
+            } else if (typeof array[i][field] === 'string') { //汉字的比较
               sortRes = array[i][field].localeCompare(array[i + 1][field]) > 0;
             } else { //数字的比较
               sortRes = array[i][field] > array[i + 1][field];
             }
           } else {
-            if(IsNaN(Number(array[i]))){//如果可以转为数字类型
-                sortRes = Number(array[i]) > Number(array[i + 1]);
-            }else if (!IsNaN(Date.parse(array[i]))) { //如果可以转成日期时间戳
+            if (!IsNaN(Date.parse(array[i]))) { //如果可以转成日期时间戳
               sortRes = Date.parse(array[i]) > Date.parse(array[i + 1]);
-            }else if (typeof array[i] === 'string') {
+            } else if (typeof array[i] === 'string') {
               sortRes = array[i].localeCompare(array[i + 1]) > 0;
             } else {
               sortRes = array[i] > array[i + 1];
+            }
+          }
+      }else{
+          if (field) {
+            if (IsNaN(Date.parse(array[i][field]))) { //如果可以转成日期时间戳
+              sortRes = Date.parse(array[i][field]) < Date.parse(array[i + 1][field]);
+            } else if (typeof array[i][field] === 'string') { //汉字的比较
+              sortRes = array[i][field].localeCompare(array[i + 1][field]) < 0;
+            } else { //数字的比较
+              sortRes = array[i][field] < array[i + 1][field];
+            }
+          } else {
+            if (!IsNaN(Date.parse(array[i]))) { //如果可以转成日期时间戳
+              sortRes = Date.parse(array[i]) < Date.parse(array[i + 1]);
+            } else if (typeof array[i] === 'string') {
+              sortRes = array[i].localeCompare(array[i + 1]) < 0;
+            } else {
+              sortRes = array[i] < array[i + 1];
             }
           }
       }
@@ -200,7 +190,7 @@ export function unicodeToCh(str){
 			if(str.charAt(i+1) == 'u'){
 				// 提取从i+2开始(包括)的 四个字符
 				var unicode = str.substr((i+2),4); 
-                // 以16进制为基数解析unicode字符串，得到一个10进制的数字
+                                // 以16进制为基数解析unicode字符串，得到一个10进制的数字
 				result += String.fromCharCode(parseInt(unicode,16).toString(10));
 				// 提取这个unicode经过了5个字符， 去掉这5次循环
 				len = 6;
@@ -257,6 +247,9 @@ export function dateFormat(timestamp, formats) {
         })[matches];
     });
 };
+/*
+** 设备信息
+*/
 export function browserInfo(){
     let u = navigator.userAgent;
     let app = navigator.appVersion;
@@ -330,12 +323,58 @@ export function getUrlParme() {
     }
     return theRequest;
 }
-//无需打开图片页面就能下载图片
-//需要服务端配合修改Access-Control-Allow-Origin: *
-export function downPic(imgsrc,name,callBack){
+//数字转为汉字数字
+export function numberToChar(number){
+    let _arrayCHNNum = ['〇','一','二','三','四','五','六','七','八','九'];
+    let _arrayCHNBit = ['','十','百','千','万','亿','兆'];
+    let _numArray = number.toString().split('');
+    if(_numArray.length === 2 && _numArray[0] === '1'){
+        _numArray[0] = 'y';
+    }
+    for(let i = _numArray.length - 1; i >= 0; i--){
+        if(_numArray[i] === '0') {
+            _numArray[i] = 'x';
+        }  else{
+            break;
+        }
+    }
+    let _s = '';
+    let _bLast0 = false;
+    for(let i = 0;i < _numArray.length;i++){
+        if(_numArray[i] === 'x'){
+            continue;
+        }
+        if(_numArray[i] === '0' && _bLast0){
+            _bLast0 = true;
+            continue;
+        }
+        if(_numArray[i] !== 'y'){//delete 1 in ten
+            _s += _arrayCHNNum[parseInt(_numArray[i])];
+        }
+        if(_numArray[i] === '0'){
+            _bLast0 = true;
+            continue;
+        }
+        _bLast0 = false;
+        _s += _arrayCHNBit[_numArray.length-i-1];
+    }
+    return _s;
+}
+/**
+ * 无需打开图片页面就能下载图片
+ * 李青逸 2021/3/31
+ * 需要服务端配合修改Access-Control-Allow-Origin: *
+ *  downPic({
+        url: `${this.ossUrl}/robot/pic/active/gzh.png`,
+        name: '物色官方公众号'
+    },()=>{
+        // TO DO
+    })
+  * */
+export function downPic(sets,callBack){
     //下载图片地址和图片名
     let image = new Image();
-    image.src = imgsrc;
+    image.src = sets.url;
     // 解决跨域 Canvas 污染问题
     image.setAttribute('crossOrigin', 'anonymous');
     image.onload = function () {
@@ -344,11 +383,11 @@ export function downPic(imgsrc,name,callBack){
         canvas.height = image.height;
         let context = canvas.getContext('2d');
         context.drawImage(image, 0, 0, image.width, image.height);
-        let ext = image.src.substring(image.src.lastIndexOf('.')+1).toLowerCase();
+        let ext = image.src.substring(image.src.lastIndexOf('.')+1).toLowerCase();//获取文件的后缀名
         let _dataURL = canvas.toDataURL('image/'+ext); //得到图片的base64编码数据
         let blob_ = dataURLtoBlob(_dataURL); // 用到Blob是因为图片文件过大时，在一部分浏览器上会下载失败，而Blob就不会
         let url = {
-            name: name || "下载图片by李青逸.png", // 图片名称不需要加.png后缀名
+            name: sets.name || "图片下载工具函数by李青逸", // 图片名称不需要加.png后缀名
             src: blob_
         };
         if (window.navigator.msSaveOrOpenBlob) {// if IE
@@ -423,4 +462,38 @@ export function copyInfo(sets){
     document.execCommand('copy');
     window.getSelection().removeAllRanges();
     imgDiv.parentNode.removeChild(imgDiv);
+}
+export function fullScreen(fn1,fn2){
+    document.addEventListener("fullscreenchange", function(e) {
+      // console.log("fullscreenchange", e);
+        if (document.fullscreenElement) {
+            fn1 && fn1();
+        } else {
+            fn2 && fn2();
+        }
+    });
+    document.addEventListener("mozfullscreenchange", function(e) {
+      // console.log("mozfullscreenchange ", e);
+        if (document.fullscreenElement) {
+            fn1 && fn1();
+        } else {
+            fn2 && fn2();
+        }
+    });
+    document.addEventListener("webkitfullscreenchange", function(e) {
+      // console.log("webkitfullscreenchange", e);
+        if (document.fullscreenElement) {
+            fn1 && fn1();
+        } else {
+            fn2 && fn2();
+        }
+    });
+    document.addEventListener("msfullscreenchange", function(e) {
+      // console.log("msfullscreenchange", e);
+        if (document.fullscreenElement) {
+            fn1 && fn1();
+        } else {
+            fn2 && fn2();
+        }
+    });
 }

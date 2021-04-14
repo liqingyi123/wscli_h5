@@ -141,6 +141,11 @@ var filters = {
             _s += _arrayCHNBit[_numArray.length-i-1];
         }
         return _s;
+    },
+    warpTxt: function(val){
+        let value = JSON.stringify(val);
+        value = value.substring(1,value.length-1)
+        return value.replace(/\\\\n/g,'<br/>');
     }
 }
 module.exports = filters;
